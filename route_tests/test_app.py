@@ -237,3 +237,16 @@ def test_calculator_results_edgecase2():
     result_page_text = result.get_data(as_text=True)
     expected_page_text = "Incorrect operator"
     assert expected_page_text == result_page_text
+
+
+def test_calculator_results_subtraction():
+    """Test calculator on subtracting 2 and 1."""
+    result = app.test_client().get(
+        "calculator_results?operand1=2&operation=subtract&operand2=1"
+    )
+
+    assert result.status_code == 200
+
+    result_page_text = result.get_data(as_text=True)
+    expected_page_text = "You chose to subtract 2 and 1. Your result is: 1"
+    assert expected_page_text == result_page_text
