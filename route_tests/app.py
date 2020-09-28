@@ -1,16 +1,19 @@
+"""Import packages."""
 from flask import Flask, request
-
 from unit_tests.string_functions import *
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/")
 def index():
+    """Return Hello World."""
     return "Hello, World!"
 
 
-@app.route('/color_form')
+@app.route("/color_form")
 def show_color_form():
+    """Return form to pick favorite color."""
     return """
     <form action="/color_results" method="GET">
         <label>
@@ -21,15 +24,17 @@ def show_color_form():
     </form>
     """
 
-@app.route('/color_results')
+
+@app.route("/color_results")
 def process_color_results():
-    users_favorite_color = request.args.get('color')
+    """Show color results to user."""
+    users_favorite_color = request.args.get("color")
     return f"Wow, {users_favorite_color} is my favorite color, too!"
 
 
-@app.route('/froyo')
+@app.route("/froyo")
 def choose_froyo():
-    """Shows a form to collect the user's Fro-Yo order."""
+    """Show a form to collect the user's Fro-Yo order."""
     return """
     <form action="/froyo_results" method="GET">
         What is your favorite Fro-Yo flavor? <br/>
@@ -40,18 +45,21 @@ def choose_froyo():
     </form>
     """
 
-@app.route('/froyo_results')
+
+@app.route("/froyo_results")
 def show_froyo_results():
+    """Show froyo choice results to user."""
     try:
-        users_froyo_flavor = request.args.get('flavor')
-        toppings = request.args.get('toppings')
-        return f'You ordered {users_froyo_flavor} flavored Fro-Yo with toppings {toppings}!'
-    except(ValueError):
-        return 'Plase enter only letters A-Z'
+        users_froyo_flavor = request.args.get("flavor")
+        toppings = request.args.get("toppings")
+        return f"You ordered {users_froyo_flavor} flavored Fro-Yo with toppings {toppings}!"
+    except (ValueError):
+        return "Plase enter only letters A-Z"
 
 
-@app.route('/reverse_message')
+@app.route("/reverse_message")
 def reverse_message_form():
+    """Reverse user's message."""
     return """
     <form action="/message_results" method="POST">
         What's your message?
@@ -60,15 +68,18 @@ def reverse_message_form():
     </form>
     """
 
-@app.route('/message_results', methods=['POST'])
+
+@app.route("/message_results", methods=["POST"])
 def message_results():
-    message = request.form.get('message')
+    """Show user reversed message."""
+    message = request.form.get("message")
     reversed_message = reverse(message)
-    return f'Here\'s your reversed message: {reversed_message}'
+    return f"Here's your reversed message: {reversed_message}"
 
 
-@app.route('/calculator')
+@app.route("/calculator")
 def calculator():
+    """Allow user to use calculator."""
     return """
     <form action="/calculator_results" method="GET">
         Please enter 2 numbers and select an operator.<br/><br/>
@@ -84,24 +95,26 @@ def calculator():
     </form>
     """
 
-@app.route('/calculator_results')
+
+@app.route("/calculator_results")
 def calculator_results():
+    """Show user their calculator results."""
     try:
-        operand1 = int(request.args.get('operand1'))
-        operand2 = int(request.args.get('operand2'))
-        operation = request.args.get('operation')
-        if operation == 'add':
+        operand1 = int(request.args.get("operand1"))
+        operand2 = int(request.args.get("operand2"))
+        operation = request.args.get("operation")
+        if operation == "add":
             result = operand1 + operand2
-        elif operation == 'subtract':
+        elif operation == "subtract":
             result = operand1 - operand2
-        elif operation == 'multiply':
+        elif operation == "multiply":
             result = operand1 * operand2
-        elif operation == 'divide':
+        elif operation == "divide":
             result = operand1 / operand2
-        return f'You chose to {operation} {operand1} and {operand2}. Your result is: {result}'
+        return f"You chose to {operation} {operand1} and {operand2}. Your result is: {result}"
     except:
-        return 'Incorrect operator'
+        return "Incorrect operator"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
